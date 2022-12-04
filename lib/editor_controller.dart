@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:text_editor/event_handlers/text_cell_events_handler.dart';
 
 import 'text/text_cell.dart';
@@ -40,12 +41,12 @@ class EditorController extends ValueNotifier {
     final textAfterSelection =
         cell.controller.text.substring(cell.controller.selection.start);
 
-  
     cell.controller.text = textBeforeSelection;
     final newCellIndex = cell.index + 1;
     addTextCell(newCellIndex, text: textAfterSelection);
     updateEditor();
-    setCursorOnCell(content.elementAt(newCellIndex),selection: const TextSelection.collapsed(offset: 0));
+    setCursorOnCell(content.elementAt(newCellIndex),
+        selection: const TextSelection.collapsed(offset: 0));
   }
 
   void breakLineAtTheEndOfContent(TextCell cell) {
@@ -62,9 +63,10 @@ class EditorController extends ValueNotifier {
 
   Future<void> setCursorOnCell(
     TextCell cell, {
+    bool useDelay = true,
     TextSelection? selection,
   }) async {
-    await Future.delayed(const Duration(milliseconds: 200));
+    if (useDelay) await Future.delayed(const Duration(milliseconds: 200));
     cell.focusNode.requestFocus();
     if (selection != null) {
       cell.controller.selection = selection;
@@ -78,5 +80,37 @@ class EditorController extends ValueNotifier {
       index++;
     }
     notifyListeners();
+  }
+
+  DateTime cursorChangeTimeStamp = DateTime.now();
+
+  handleNavigationKeys(RawKeyEvent key) {
+    if (DateTime.now().difference(cursorChangeTimeStamp).inMilliseconds < 100) {
+      return;
+    }
+    final focusedIndex =
+        content.indexWhere((element) => element.focusNode.hasFocus);
+    if (key.data is RawKeyEventDataWeb) {
+      if ((key.data as RawKeyEventDataWeb).keyCode == 38) {
+        if (focusedIndex > 0) {
+          final cell = content.elementAt(focusedIndex - 1);
+          setCursorOnCell(
+            cell,
+            useDelay: false,
+            selection: cell.controller.selection,
+          );
+        }
+      } else if ((key.data as RawKeyEventDataWeb).keyCode == 40) {
+        if (focusedIndex < content.length - 1) {
+          final cell = content.elementAt(focusedIndex + 1);
+          setCursorOnCell(
+            cell,
+            useDelay: false,
+            selection: cell.controller.selection,
+          );
+        }
+      }
+    }
+    cursorChangeTimeStamp = DateTime.now();
   }
 }

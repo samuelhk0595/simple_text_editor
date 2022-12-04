@@ -29,7 +29,7 @@ class _EditorState extends State<Editor> {
   Widget build(BuildContext context) {
     return RawKeyboardListener(
       focusNode: FocusNode(),
-      onKey: (key) => controller.textCellEventsHandler.onEnterKeyPressed(key),
+      onKey: (key) => controller.handleNavigationKeys(key),
       child: ValueListenableBuilder(
           valueListenable: controller,
           builder: (context, snapshot, _) {

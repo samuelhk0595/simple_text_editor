@@ -16,12 +16,14 @@ class TextCellWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return EditableText(
       focusNode: textCell.focusNode,
-      onTap: () => eventsHandler.onTap(textCell),
-      decoration: InputDecoration.collapsed(
-        hintText: textCell.hintText,
-      ),
+      cursorColor: Colors.red,
+      backgroundCursorColor: Colors.green,
+      // onTap: () => eventsHandler.onTap(textCell),
+      // decoration: InputDecoration.collapsed(
+      //   hintText: textCell.hintText,
+      // ),
       controller: textCell.controller,
       style: textCell.style.style,
       onChanged: (text) => eventsHandler.onLineGotEmpty(textCell),

@@ -29,7 +29,11 @@ class TextCellEventHandler {
   }
 
   void onLineGotEmpty(TextCell textCell) {}
-  void onEnterKeyPressed(dynamic key) {}
+  void onEnterKeyPressed(RawKeyEvent key) {
+    if(key.data is RawKeyEventDataWeb){
+      
+    }
+  }
 }
 // if (key.data is RawKeyEventDataWeb) {
 //           if ((key.data as RawKeyEventDataWeb).keyCode == 13) {
