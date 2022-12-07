@@ -13,6 +13,7 @@ class EditorController extends ValueNotifier {
       content.add(TextCell.newCell(0));
     }
     textCellEventsHandler = TextCellEventHandler(
+      onSelectionUpdated: onSelectionUpdated,
       onLineBreakInEmptyField: breakLineOnEmptyField,
       onLineBreakAtBeginningOfContent: breakLineAtBeginningOfContent,
       onLineBreakAtTheMiddleOfContent: breakLineAtTheMiddleOfContent,
@@ -59,6 +60,10 @@ class EditorController extends ValueNotifier {
   void addTextCell(int index, {String? text}) {
     final newCell = TextCell.newCell(index, text: text);
     content.insert(index, newCell);
+  }
+
+  void onSelectionUpdated(TextCell cell) {
+    print('cell update');
   }
 
   Future<void> setCursorOnCell(

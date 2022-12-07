@@ -7,11 +7,13 @@ class TextCellEventHandler {
     required this.onLineBreakAtBeginningOfContent,
     required this.onLineBreakAtTheMiddleOfContent,
     required this.onLineBreakAtTheEndOfContent,
+    required this.onSelectionUpdated,
   });
   final void Function(TextCell cell) onLineBreakInEmptyField;
   final void Function(TextCell cell) onLineBreakAtBeginningOfContent;
   final void Function(TextCell cell) onLineBreakAtTheMiddleOfContent;
   final void Function(TextCell cell) onLineBreakAtTheEndOfContent;
+  final void Function(TextCell cell) onSelectionUpdated;
 
   void onTap(TextCell textCell) {}
   void onSubmitted(TextCell textCell) {
@@ -30,9 +32,11 @@ class TextCellEventHandler {
 
   void onLineGotEmpty(TextCell textCell) {}
   void onEnterKeyPressed(RawKeyEvent key) {
-    if(key.data is RawKeyEventDataWeb){
-      
-    }
+    if (key.data is RawKeyEventDataWeb) {}
+  }
+
+  void updateSelection(TextCell textCell) {
+    onSelectionUpdated(textCell);
   }
 }
 // if (key.data is RawKeyEventDataWeb) {

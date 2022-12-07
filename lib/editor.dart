@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:text_editor/editor_controller.dart';
 import 'package:text_editor/text/text_cell.dart';
 import 'package:text_editor/text/text_cell_widget.dart';
