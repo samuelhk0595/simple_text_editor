@@ -39,7 +39,7 @@ class _TextCellWidgetState extends State<TextCellWidget> {
   }
 
   void notifySelectionUpdateByTimeout(int extent) {
-    Future.delayed(const Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 250), () {
       if (extent == selectionExtent) {
         widget.eventsHandler.updateSelection(widget.textCell);
       }
@@ -55,7 +55,7 @@ class _TextCellWidgetState extends State<TextCellWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-  
+      key: widget.textCell.key,
       padding: const EdgeInsets.all(4.0),
       child: TextField(
         focusNode: widget.textCell.focusNode,

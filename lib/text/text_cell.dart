@@ -36,6 +36,7 @@ class TextCell extends Cell {
   String? initialText;
   String? hintText;
   int index;
+  GlobalKey key = GlobalKey();
   TextCellStyle style;
   late FocusNode focusNode;
   late TextEditingController controller;

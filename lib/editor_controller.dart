@@ -7,6 +7,8 @@ import 'text/text_cell.dart';
 class EditorController extends ValueNotifier {
   final List<TextCell> content;
   late final TextCellEventHandler textCellEventsHandler;
+  Offset styleModalOffset = Offset.zero;
+  TextCell? selectedCell;
 
   EditorController(this.content) : super(0) {
     if (content.isEmpty) {
@@ -63,7 +65,16 @@ class EditorController extends ValueNotifier {
   }
 
   void onSelectionUpdated(TextCell cell) {
-    print('cell update');
+    try {
+      RenderBox box = cell.key.currentContext?.findRenderObject() as RenderBox;
+      styleModalOffset = box.localToGlobal(Offset.zero);
+      styleModalOffset = styleModalOffset.translate(0, box.size.height * (-1.7));
+      selectedCell = cell;
+      notifyListeners();
+
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> setCursorOnCell(
